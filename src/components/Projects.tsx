@@ -20,24 +20,32 @@ const projects: Record<ProjectCategory, Array<{
       description: "A 1:1 chatting and video calling app. Integrated WebRTC for seamless video communication and WebSockets for real-time messaging.",
       image: "mychat.png",
       tech: ["Flutter", "Node.js", "MongoDB", "Express.js"],
-      github: "https://github.com/Shadab-2604/Backend-PR/tree/main/Beginner/weather-api",
+      github: "#",
     },
     {
       title: "Naf Garments",
       description: "Built an e-commerce platform with a desktop-accessible admin panel and RBAC for Wholesalers & Retailers.",
       image: "banner.png",
       tech: ["Flutter", "Node.js", "MongoDB", "Express.js"],
-      github: "https://github.com/Shadab-2604/Backend-PR/tree/main/Beginner/weather-api",
-      demo: "https://weather-api-bnr2.onrender.com"
+      github: "#",
+      demo: "https://play.google.com/store/apps/details?id=com.naf.naf_garments"
     }
   ],
   "Backend Projects": [
     {
       title: "DNS Server",
       description: "Built a DNS server using Node.js with UDP protocol for domain name resolution.",
-      image: "web.png",
+      image: "dns.png",
       tech: ["Node.js","UDP"],
-      github: "https://github.com/syedkumailraza2/Almighty-verse_CodeBug2025"
+      github: "#"
+    },
+    {
+      title: "URL Shortner",
+      description: "Built a URL shortener using Node.js, MongoDB, HTML & CSS, along with a Chrome extension for easy access.",
+      image: "url.png",
+      tech: ["Node.js","MongoDB", "HTML/CSS"],
+      github: "https://github.com/syedkumailraza1/URL-Shortner",
+      demo: "https://url-shortner-blond-pi.vercel.app/"
     }
   ],
   "Web Projects": [
