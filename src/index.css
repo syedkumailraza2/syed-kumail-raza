@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  scroll-behavior: smooth;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+@layer base {
+  body {
+    @apply text-gray-900 dark:text-white;
+  }
+}
+
+@layer utilities {
+  .transition-transform {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes scroll {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(40px); }
+}
+
+@keyframes scroll-wheel {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(28px); opacity: 0; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+.animate-scroll-wheel {
+  animation: scroll-wheel 1.5s ease-out infinite;
+}
+
+.bg-radial-gradient {
+  background: radial-gradient(circle, var(--tw-gradient-from), var(--tw-gradient-to));
+}
+
