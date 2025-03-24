@@ -108,7 +108,7 @@ const App: React.FC = () => {
       <footer className="bg-white dark:bg-gray-900 border-t dark:border-gray-800 py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-600 dark:text-gray-400">© 2024 Shadab. All rights reserved.</p>
+            <p className="text-gray-600 dark:text-gray-400">© 2025 Syed Kumail Raza. All rights reserved.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a
                 href="https://github.com/syedkumailraza2"
