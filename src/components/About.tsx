@@ -12,9 +12,7 @@ const About = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-            A software developer with expertise in Python, Java, C#, Node.js, Javascript, MongoDB and Flutter
-Experienced in backend development, API creation, database 
-management, and Android app development. 
+            A software developer with expertise in building robust applications using Flutter, Node js, Express and MongoDB .
             </p>
             <p className="text-lg text-gray-600 dark:text-gray-300">
             Passionate about building scalable 
@@ -32,16 +30,17 @@ innovative solutions.
                 title: 'Backend Development',
                 description: 'Building robust and scalable server-side solutions'
               },
+               {
+                icon: <Code2Icon className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
+                title: 'Application Development',
+                description: 'Creating hybrid applications of Android and IOS'
+              },
               {
                 icon: <Code2 className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
                 title: 'Full Stack Projects',
                 description: 'Creating end-to-end web applications'
               },
-              {
-                icon: <Code2Icon className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
-                title: 'Application Development',
-                description: 'Creating hybrid applications of Android and IOS'
-              },
+             
               {
                 icon: <Database className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
                 title: 'API Development',

@@ -3,6 +3,17 @@ import { Calendar, Award } from 'lucide-react';
 
 const experiences = [
   {
+    "title": "Founding Engineer",
+    "company": "Powersmy.biz",
+    "period": "April 2025 - Present",  
+    "description": "Developed an Ed-Tech platform using Flutter, FastAPI and Lead a team of 4-5 people.",
+    "achievements": [
+        "Created real-world problem-solving AI Powered Ed-tech Platform",
+        "Lead a team of 4-5 people."
+    ]
+},
+
+  {
     "title": "Flutter Developer",
     "company": "Freelance",
     "period": "July 2024 - February 2025",  

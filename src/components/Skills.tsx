@@ -6,8 +6,7 @@ const skillCategories = [
     skills: [
       { name: 'JavaScript', icon: 'javascript.svg' },
       { name: 'Java', icon: 'html.svg' },
-      { name: 'Dart', icon: 'css.svg' },
-      { name: 'C#', icon: 'css.svg' }
+      { name: 'Dart', icon: 'css.svg' }
     ]
   },
   {
@@ -15,8 +14,7 @@ const skillCategories = [
     skills: [
       { name: 'Node.js', icon: 'nodejs.svg' },
       { name: 'Express.js', icon: 'express.svg' },
-      { name: 'Flutter', icon: 'pandas.svg' },
-      { name: '.NET', icon: 'pandas.svg' }
+      { name: 'Flutter', icon: 'pandas.svg' }
     ]
   },
   {
