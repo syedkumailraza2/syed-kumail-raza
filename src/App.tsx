@@ -1,145 +1,105 @@
-import React, { useState, useEffect } from "react";
-import { Moon, Sun, Menu, X, Github, Linkedin, Instagram, Twitter } from "lucide-react";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import Projects from "./components/Projects";
-import Skills from "./components/Skills";
-import Experience from "./components/Experience";
-import Contact from "./components/Contact";
+import { useEffect, useRef, useState } from 'react';
+import { useSmoothScroll } from './hooks/useSmoothScroll';
+import Nav from './components/Nav';
+import Hero from './components/Hero';
+import ProjectsSection from './components/Projects/ProjectsSection';
+import About from './components/About';
+import Experience from './components/Experience';
+import Skills from './components/Skills';
+import Footer from './components/Footer';
 
-const App: React.FC = () => {
-  // Check localStorage for theme preference, default to dark mode
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    return localStorage.getItem("theme") === "dark" || !localStorage.getItem("theme");
-  });
+export default function App() {
+  const lenis = useSmoothScroll();
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorLabelRef = useRef<HTMLDivElement>(null);
 
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
+  // Custom cursor (desktop only)
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
+    const isTouchDevice = 'ontouchstart' in window;
+    if (isTouchDevice) return;
 
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => !prev);
-  };
+    const cursor = cursorRef.current;
+    const label = cursorLabelRef.current;
+    if (!cursor || !label) return;
 
-  const navItems: string[] = ["About", "Projects", "Skills", "Experience", "Contact"];
+    cursor.style.display = 'block';
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+
+    let rafId: number;
+    const tick = () => {
+      cursorX += (mouseX - cursorX) * 0.15;
+      cursorY += (mouseY - cursorY) * 0.15;
+      cursor.style.left = `${cursorX}px`;
+      cursor.style.top = `${cursorY}px`;
+      label.style.left = `${cursorX}px`;
+      label.style.top = `${cursorY}px`;
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const onMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const interactive = target.closest('a, button, [data-cursor="expand"]');
+
+      if (interactive) {
+        const isExpand = interactive.hasAttribute('data-cursor');
+        cursor.classList.toggle('is-expand', isExpand);
+        cursor.classList.toggle('is-hover', !isExpand);
+        if (isExpand) {
+          label.textContent = 'Expand';
+          label.classList.add('is-visible');
+        }
+      }
+    };
+
+    const onMouseOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('a, button, [data-cursor="expand"]')) {
+        cursor.classList.remove('is-hover', 'is-expand');
+        label.classList.remove('is-visible');
+        label.textContent = '';
+      }
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseover', onMouseOver);
+    document.addEventListener('mouseout', onMouseOut);
+    rafId = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseover', onMouseOver);
+      document.removeEventListener('mouseout', onMouseOut);
+    };
+  }, []);
 
   return (
-    <div className={`min-h-screen ${darkMode ? "dark bg-gray-900" : "bg-gray-50"}`}>
-      {/* Navigation */}
-      <nav className="fixed w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50 py-4">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <a href="#" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-            SYED KUMAIL RAZA
-          </a>
+    <>
+      <div ref={cursorRef} className="custom-cursor hidden" />
+      <div ref={cursorLabelRef} className="custom-cursor-label" />
 
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-              >
-                {item}
-              </a>
-            ))}
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            >
-              {darkMode ? <Sun className="w-5 h-5 text-gray-300" /> : <Moon className="w-5 h-5 text-gray-600" />}
-            </button>
-          </div>
-
-          <div className="md:hidden flex items-center space-x-4">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            >
-              {darkMode ? <Sun className="w-5 h-5 text-gray-300" /> : <Moon className="w-5 h-5 text-gray-600" />}
-            </button>
-            <button
-              onClick={() => setIsMenuOpen((prev) => !prev)}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            >
-              {isMenuOpen ? (
-                <X className="w-6 h-6 text-gray-600 dark:text-gray-300" />
-              ) : (
-                <Menu className="w-6 h-6 text-gray-600 dark:text-gray-300" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-900 border-t dark:border-gray-800">
-            {navItems.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="block px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item}
-              </a>
-            ))}
-          </div>
-        )}
-      </nav>
-
-      <main className="pt-16">
-        <Hero darkMode={darkMode} />
-        <About />
-        <Projects />
-        <Skills />
+      <Nav lenis={lenis} onAboutClick={() => { setAboutOpen(true); lenis.current?.stop(); }} />
+      <main>
+        <Hero lenis={lenis} />
+        <ProjectsSection lenis={lenis} />
         <Experience />
-        <Contact />
+        <Skills />
       </main>
+      <Footer />
 
-      {/* Footer */}
-      <footer className="bg-white dark:bg-gray-900 border-t dark:border-gray-800 py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-600 dark:text-gray-400">© 2025 Syed Kumail Raza. All rights reserved.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a
-                href="https://github.com/syedkumailraza2"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
-                <Github className="w-6 h-6" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/syedkumailraza/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
-                <Linkedin className="w-6 h-6" />
-              </a>
-              <a
-                href="https://x.com/kumail_raza11"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
-                <Twitter className="w-6 h-6" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
+      {aboutOpen && (
+        <About onClose={() => { setAboutOpen(false); lenis.current?.start(); }} />
+      )}
+    </>
   );
-};
-
-export default App;
+}

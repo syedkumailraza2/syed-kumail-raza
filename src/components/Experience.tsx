@@ -1,107 +1,65 @@
-import React from 'react';
-import { Calendar, Award } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
-const experiences = [
-  {
-    "title": "Founding Engineer",
-    "company": "Powersmy.biz",
-    "period": "April 2025 - Present",  
-    "description": "Developed an Ed-Tech platform using Flutter, FastAPI and Lead a team of 4-5 people.",
-    "achievements": [
-        "Created real-world problem-solving AI Powered Ed-tech Platform",
-        "Lead a team of 4-5 people."
-    ]
-},
+const experience = {
+  role: 'Founding Engineer (SDE-1)',
+  company: 'Powersmy.biz',
+  period: 'Apr 2025 – Present',
+  location: 'Ballari, India',
+  points: [
+    'Built a scalable Ed-Tech mobile app using Flutter and BLoC architecture',
+    'Integrated AI features and WebSocket-based real-time communication for low-latency interactions',
+    'Maintained 95% crash-free user rate using Firebase Crashlytics',
+    'Scaled system to support 150+ concurrent active sessions with stable performance',
+    'Used Microsoft Clarity to analyze user behavior and improve engagement',
+    'Implemented CI/CD using GitHub Actions for automated builds and deployment',
+    'Deployed application on Google Play Store',
+    'Contributed to backend development using FastAPI',
+  ],
+};
 
-  {
-    "title": "Flutter Developer",
-    "company": "Freelance",
-    "period": "July 2024 - February 2025",  
-    "description": "Developed full-stack mobile applications using Flutter and Node.js.",
-    "achievements": [
-        "Created real-world problem-solving applications for business owners.",
-        "Managed projects efficiently."
-    ]
-},
+export default function Experience() {
+  const ref = useScrollReveal<HTMLDivElement>({ stagger: 0.1 });
 
-  {
-    title: "Generative AI Intern",
-    company: "TCR Innovation",
-    period: "Oct 2024 - Dec 2024", // Extracted from resume
-    description: "Utilized Pandas for data preprocessing, optimization, and feature engineering to support AI model development.",
-    achievements: [
-      "Developed an intelligent chatbot system", // New achievement
-      "Implemented natural language processing features", // New achievement
-      "Collaborated with cross-functional teams" // New achievement
-    ]
-  },
-
-  {
-    title: "Dot Net Developer Intern",
-    company: "Equitec Technology for Finance",
-    period: "May 2024 - July 2024", // No period in resume
-    description: "Developed FullStack Websites using ASP .Net core and Dapper ORM.",
-    achievements: [
-      "Showcased skills in web development, teamwork, and creative problem-solving"
-    ]
-  },
- 
-];
-
-const Experience = () => {
   return (
-    <section id="experience" className="py-20 bg-gray-50 dark:bg-gray-800">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-16 text-gray-900 dark:text-white">
+    <section id="experience" className="py-24 px-6">
+      <div className="container mx-auto max-w-4xl">
+        <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-black mb-16">
           Experience
         </h2>
 
-        <div className="max-w-3xl mx-auto">
-          {experiences.map((exp, index) => (
-            <div
-              key={index}
-              className="relative pl-8 pb-12 last:pb-0"
-            >
-              {/* Timeline line */}
-              {index !== experiences.length - 1 && (
-                <div className="absolute left-[11px] top-0 h-full w-0.5 bg-gray-200 dark:bg-gray-700" />
-              )}
-              
-              {/* Timeline dot */}
-              <div className="absolute left-0 top-0 w-6 h-6 rounded-full bg-indigo-600 dark:bg-indigo-400 border-4 border-white dark:border-gray-800" />
-
-              <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md ml-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  {exp.title}
-                </h3>
-                <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  <span className="mr-4">{exp.company}</span>
-                  <span>{exp.period}</span>
-                </div>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  {exp.description}
-                </p>
-                <div className="space-y-2">
-                  {exp.achievements.map((achievement, achievementIndex) => (
-                    <div
-                      key={achievementIndex}
-                      className="flex items-start"
-                    >
-                      <Award className="w-5 h-5 text-indigo-600 dark:text-indigo-400 mr-2 mt-0.5" />
-                      <span className="text-gray-600 dark:text-gray-300">
-                        {achievement}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+        <div ref={ref}>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-6">
+            <div>
+              <h3 className="text-xl font-bold text-[#1a1a1a]">
+                {experience.role}
+              </h3>
+              <p className="text-base text-muted font-medium">
+                {experience.company}
+              </p>
             </div>
-          ))}
+            <div className="sm:text-right">
+              <p className="text-sm text-[#1a1a1a] font-medium">
+                {experience.period}
+              </p>
+              <p className="text-sm text-muted">
+                {experience.location}
+              </p>
+            </div>
+          </div>
+
+          <ul className="space-y-3">
+            {experience.points.map((point, i) => (
+              <li
+                key={i}
+                className="flex items-start gap-3 text-[15px] text-[#1a1a1a] leading-relaxed"
+              >
+                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
+                {point}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
   );
-};
-
-export default Experience;
+}
