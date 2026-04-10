@@ -1,67 +1,30 @@
-import React from 'react';
+import { skillCategories } from '../data/skills';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
-const skillCategories = [
-  {
-    title: 'Languages',
-    skills: [
-      { name: 'JavaScript', icon: 'javascript.svg' },
-      { name: 'Java', icon: 'html.svg' },
-      { name: 'Dart', icon: 'css.svg' }
-    ]
-  },
-  {
-    title: 'Frameworks & Libraries',
-    skills: [
-      { name: 'Node.js', icon: 'nodejs.svg' },
-      { name: 'Express.js', icon: 'express.svg' },
-      { name: 'Flutter', icon: 'pandas.svg' }
-    ]
-  },
-  {
-    title: 'Database',
-    skills: [
-      { name: 'MongoDB', icon: 'mongodb.svg' },
-      { name: 'MySQL', icon: 'docker.svg' },
-      { name: 'MsSQL', icon: 'docker.svg' },
-    ]
-  },
-  {
-    title: 'Other Skills',
-    skills: [
-      { name: 'API Design', icon: 'api.svg' },
-      { name: 'Git', icon: 'git.svg' },
-      { name: 'VSCode', icon: 'git.svg' },
-    ]
-  }
-];
+export default function Skills() {
+  const ref = useScrollReveal<HTMLDivElement>({ stagger: 0.15 });
 
-const Skills = () => {
   return (
-    <section id="skills" className="py-20 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-16 text-gray-900 dark:text-white">
-          Skills & Expertise
+    <section id="skills" className="py-24 px-6">
+      <div className="container mx-auto max-w-4xl">
+        <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-black mb-16">
+          Skills
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {skillCategories.map((category, categoryIndex) => (
-            <div key={categoryIndex}>
-              <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">
+        <div ref={ref} className="grid sm:grid-cols-2 gap-12">
+          {skillCategories.map((category) => (
+            <div key={category.title}>
+              <h3 className="text-xs uppercase tracking-[0.15em] text-muted font-medium mb-4">
                 {category.title}
               </h3>
-              <div className="grid grid-cols-2 gap-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <div
-                    key={skillIndex}
-                    className="border border-white/20 bg-white/5 backdrop-blur-sm rounded-lg p-4 hover:border-indigo-500/50 transition-colors duration-300"
+              <div className="flex flex-wrap gap-2">
+                {category.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-4 py-2 text-sm bg-accent/10 text-[#1a1a1a] rounded-full font-medium"
                   >
-                    <div className="flex items-center space-x-3">
-                      {/* You'll need to add the actual icons here */}
-                      <span className="text-gray-700 dark:text-gray-300">
-                        {skill.name}
-                      </span>
-                    </div>
-                  </div>
+                    {skill}
+                  </span>
                 ))}
               </div>
             </div>
@@ -70,6 +33,4 @@ const Skills = () => {
       </div>
     </section>
   );
-};
-
-export default Skills;
+}

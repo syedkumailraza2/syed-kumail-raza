@@ -1,29 +1,18 @@
 import { useEffect, useRef } from 'react';
-import { X, Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { X, Github, ExternalLink } from 'lucide-react';
 import gsap from 'gsap';
+import { Project } from '../../types';
+import DeviceMockup from './DeviceMockup';
 
-const highlights = [
-  'Backend Development',
-  'Mobile Apps',
-  'Full Stack',
-  'API Design',
-];
-
-const socials = [
-  { icon: Github, href: 'https://github.com/syedkumailraza2', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://www.linkedin.com/in/syedkumailraza/', label: 'LinkedIn' },
-  { icon: Twitter, href: 'https://x.com/kumail_raza11', label: 'Twitter' },
-  { icon: Mail, href: 'mailto:syedkumailraza28@gmail.com', label: 'Email' },
-];
-
-interface AboutProps {
+interface ProjectDetailProps {
+  project: Project;
   onClose: () => void;
 }
 
-export default function About({ onClose }: AboutProps) {
+export default function ProjectDetail({ project, onClose }: ProjectDetailProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
-  const visualRef = useRef<HTMLDivElement>(null);
+  const deviceRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({
@@ -36,7 +25,7 @@ export default function About({ onClose }: AboutProps) {
       { opacity: 1, duration: 0.3 }
     )
       .fromTo(
-        visualRef.current,
+        deviceRef.current,
         { scale: 0.9, opacity: 0 },
         { scale: 1, opacity: 1, duration: 0.6 },
         '-=0.1'
@@ -55,7 +44,7 @@ export default function About({ onClose }: AboutProps) {
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handleClose();
+      if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
@@ -74,7 +63,7 @@ export default function About({ onClose }: AboutProps) {
       duration: 0.3,
     })
       .to(
-        visualRef.current,
+        deviceRef.current,
         { scale: 0.9, opacity: 0, duration: 0.3 },
         '-=0.2'
       )
@@ -90,7 +79,7 @@ export default function About({ onClose }: AboutProps) {
       <button
         onClick={handleClose}
         className="absolute top-6 right-6 p-2 text-muted hover:text-[#1a1a1a] transition-colors z-10"
-        aria-label="Close about"
+        aria-label="Close project detail"
       >
         <X size={24} />
       </button>
@@ -101,64 +90,56 @@ export default function About({ onClose }: AboutProps) {
         className="w-full md:w-[40%] p-8 md:p-12 flex flex-col justify-center order-2 md:order-1"
       >
         <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a1a] mb-3">
-          About Me
+          {project.title}
         </h2>
 
         <div className="w-12 h-px bg-accent mb-4" />
 
-        <p className="text-muted leading-relaxed mb-4">
-          I'm Syed Kumail Raza, a software developer from India with a passion for
-          building robust backend systems and full-stack applications. I focus on
-          writing clean, scalable code and creating products that solve real problems.
-        </p>
+        <p className="text-muted leading-relaxed mb-6">{project.description}</p>
 
-        <p className="text-muted leading-relaxed mb-6">
-          Currently working as a Founding Engineer at Powersmy.biz, building an
-          Ed-Tech platform with Flutter & FastAPI while leading a team of developers.
-          I love exploring new technologies and turning ideas into reality.
-        </p>
-
-        {/* Highlight pills */}
         <div className="flex flex-wrap gap-2 mb-8">
-          {highlights.map((item) => (
+          {project.tech.map((t) => (
             <span
-              key={item}
+              key={t}
               className="px-3 py-1 text-xs font-medium bg-accent/10 text-[#1a1a1a] rounded-full"
             >
-              {item}
+              {t}
             </span>
           ))}
         </div>
 
-        {/* Social links */}
         <div className="flex items-center gap-4">
-          {socials.map((social) => (
+          {project.githubUrl && (
             <a
-              key={social.label}
-              href={social.href}
+              href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted hover:text-[#1a1a1a] transition-colors"
-              aria-label={social.label}
+              className="inline-flex items-center gap-2 text-sm text-muted hover:text-[#1a1a1a] transition-colors"
             >
-              <social.icon size={18} />
+              <Github size={16} />
+              Source Code
             </a>
-          ))}
+          )}
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-muted hover:text-[#1a1a1a] transition-colors"
+            >
+              <ExternalLink size={16} />
+              Live Demo
+            </a>
+          )}
         </div>
       </div>
 
-      {/* Visual panel (right) */}
+      {/* Device (right) */}
       <div
-        ref={visualRef}
+        ref={deviceRef}
         className="w-full md:w-[60%] flex items-center justify-center p-8 order-1 md:order-2"
       >
-        <div className="relative w-full max-w-md aspect-[4/5] rounded-2xl overflow-hidden">
-          <img
-            src="/kumail.jpeg"
-            alt="Syed Kumail Raza"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <DeviceMockup project={project} isExpanded />
       </div>
     </div>
   );
